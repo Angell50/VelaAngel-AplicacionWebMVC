@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Lista Jugadores";
+}
+
+<h2>Jugadores</h2>
+
+<form method="get">
+    <select name="equipoId">
+        <option value="">Todos los Equipos</option>
+        @foreach (var equipo in ViewBag.Equipos)
+        {
+            <option value="@equipo.Id">@equipo.Nombre</option>
+        }
+    </select>
+    <input type="submit" value="Filtrar" />
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Posición</th>
+            <th>Edad</th>
+            <th>Equipo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var jugador in Model)
+        {
+            <tr>
+                <td>@jugador.Nombre</td>
+                <td>@jugador.Posición</td>
+                <td>@jugador.Edad</td>
+                <td>@jugador.Equipo.Nombre</td>
+                <td>
+                    <a href="/Jugador/Edit/@jugador.Id">Editar</a> |
+                    <a href="/Jugador/Delete/@jugador.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

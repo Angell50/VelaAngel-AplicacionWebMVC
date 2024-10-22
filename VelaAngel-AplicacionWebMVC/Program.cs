@@ -1,16 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using VelaAngel_AplicacionWebMVC.Data; // Asegúrate de que este es el espacio de nombres correcto
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configurar la conexión a PostgreSQL (asegúrate de que la cadena de conexión esté en appsettings.json)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Agregar servicios para controladores con vistas (MVC)
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+var app = builder.Build(); // Solo una llamada a Build()
 
-// Configure the HTTP request pipeline.
+// Configurar el pipeline de solicitudes HTTP
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -21,7 +27,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Jugador}/{action=Index}/{id?}");
 
 app.Run();
